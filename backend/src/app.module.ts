@@ -1,9 +1,26 @@
-import { Module } from '@nestjs/common';
+import * as common from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import{TypeOrmModule} from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
-@Module({
-  imports: [],
+@common.Module({
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: ".dev.env"
+    }),
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: 'root',
+      database: 'test',
+      entities: [],
+      synchronize: true,
+    })
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
